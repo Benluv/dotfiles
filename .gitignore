@@ -1,0 +1,32 @@
+# Secrets — NEVER commit these
+.git-credentials
+.npmrc
+.boto
+*.pem
+*.key
+id_*
+!.ssh/config
+
+# Machine-specific caches and history
+.zsh_history
+.bash_history
+.python_history
+.lesshst
+.viminfo
+.wget-hsts
+.zcompdump*
+.sudo_as_admin_successful
+.motd_shown
+
+# Plugin/package artifacts (installed by bootstrap, not tracked)
+node_modules/
+bun.lock
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor artifacts
+*.swp
+*.swo
+*~
