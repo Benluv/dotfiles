@@ -50,6 +50,9 @@ alias lt='eza --tree --level=2 --icons --git'
 alias cat='bat'
 alias nokubectl='minikube kubectl --'
 
+# Initialize zoxide
+eval "$(zoxide init zsh)"
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -68,4 +71,11 @@ fr() {
 [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
 
 # opencode
-export PATH=/home/bluongo/.opencode/bin:$PATH
+export PATH="$HOME/.opencode/bin:$PATH"
+
+# bun completions
+[ -s "/home/luongov/.bun/_bun" ] && source "/home/luongov/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

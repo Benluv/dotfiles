@@ -6,7 +6,7 @@
 # It installs everything needed to make your dotfiles work:
 #   - zsh + Oh My Zsh + Powerlevel10k + plugins
 #   - tmux + TPM (Tmux Plugin Manager)
-#   - Modern CLI tools: eza, bat, fd, fzf, ripgrep, tldr
+#   - Modern CLI tools: eza, bat, fd, fzf, ripgrep, tldr, zoxide, delta
 #   - Neovim (latest stable from GitHub releases)
 #   - NVM + latest LTS Node.js
 #   - Bun (for OpenCode plugin)
@@ -141,35 +141,52 @@ fi
 section "CLI tools"
 
 # bat (cat replacement)
-if ! is_installed bat && ! is_installed batcat; then
-    info "Installing bat..."
-    run sudo apt-get install -y -qq bat
-    # Ubuntu names it 'batcat', create symlink
-    if is_installed batcat && ! is_installed bat; then
-        run mkdir -p ~/.local/bin
-        run ln -sf "$(which batcat)" ~/.local/bin/bat
-    fi
+if ! is_installed bat; then
+    info "Installing bat from GitHub..."
+    BAT_VERSION=$(curl -s https://api.github.com/repos/sharkdp/bat/releases/latest | grep -Po '"tag_name": "v\K[^"]*')
+    ARCH=$(dpkg --print-architecture)
+    if [ "$ARCH" = "amd64" ]; then BAT_ARCH="x86_64"; else BAT_ARCH="aarch64"; fi
+    
+    URL="https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat-v${BAT_VERSION}-${BAT_ARCH}-unknown-linux-musl.tar.gz"
+    curl -fsSL "$URL" -o /tmp/bat.tar.gz
+    mkdir -p /tmp/bat-download
+    tar -xzf /tmp/bat.tar.gz -C /tmp/bat-download --strip-components=1
+    run sudo mv /tmp/bat-download/bat /usr/local/bin/bat
+    rm -rf /tmp/bat.tar.gz /tmp/bat-download
 else
     info "bat already installed"
 fi
 
 # fd (find replacement)
-if ! is_installed fd && ! is_installed fdfind; then
-    info "Installing fd-find..."
-    run sudo apt-get install -y -qq fd-find
-    # Ubuntu names it 'fdfind', create symlink
-    if is_installed fdfind && ! is_installed fd; then
-        run mkdir -p ~/.local/bin
-        run ln -sf "$(which fdfind)" ~/.local/bin/fd
-    fi
+if ! is_installed fd; then
+    info "Installing fd from GitHub..."
+    FD_VERSION=$(curl -s https://api.github.com/repos/sharkdp/fd/releases/latest | grep -Po '"tag_name": "v\K[^"]*')
+    ARCH=$(dpkg --print-architecture)
+    if [ "$ARCH" = "amd64" ]; then FD_ARCH="x86_64"; else FD_ARCH="aarch64"; fi
+
+    URL="https://github.com/sharkdp/fd/releases/download/v${FD_VERSION}/fd-v${FD_VERSION}-${FD_ARCH}-unknown-linux-musl.tar.gz"
+    curl -fsSL "$URL" -o /tmp/fd.tar.gz
+    mkdir -p /tmp/fd-download
+    tar -xzf /tmp/fd.tar.gz -C /tmp/fd-download --strip-components=1
+    run sudo mv /tmp/fd-download/fd /usr/local/bin/fd
+    rm -rf /tmp/fd.tar.gz /tmp/fd-download
 else
     info "fd already installed"
 fi
 
 # ripgrep
 if ! is_installed rg; then
-    info "Installing ripgrep..."
-    run sudo apt-get install -y -qq ripgrep
+    info "Installing ripgrep from GitHub..."
+    RG_VERSION=$(curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | grep -Po '"tag_name": "\K[^"]*')
+    ARCH=$(dpkg --print-architecture)
+    if [ "$ARCH" = "amd64" ]; then RG_ARCH="x86_64"; else RG_ARCH="aarch64"; fi
+
+    URL="https://github.com/BurntSushi/ripgrep/releases/download/${RG_VERSION}/ripgrep-${RG_VERSION}-${RG_ARCH}-unknown-linux-musl.tar.gz"
+    curl -fsSL "$URL" -o /tmp/rg.tar.gz
+    mkdir -p /tmp/rg-download
+    tar -xzf /tmp/rg.tar.gz -C /tmp/rg-download --strip-components=1
+    run sudo mv /tmp/rg-download/rg /usr/local/bin/rg
+    rm -rf /tmp/rg.tar.gz /tmp/rg-download
 else
     info "ripgrep already installed"
 fi
@@ -213,6 +230,31 @@ if ! is_installed tldr; then
     run tldr --update || true
 else
     info "tldr already installed"
+fi
+
+# zoxide (smarter cd with frecency)
+if ! is_installed zoxide; then
+    info "Installing zoxide..."
+    run curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+else
+    info "zoxide already installed"
+fi
+
+# delta (better git diffs)
+if ! is_installed delta; then
+    info "Installing delta from GitHub..."
+    DELTA_VERSION=$(curl -s https://api.github.com/repos/dandavison/delta/releases/latest | grep -Po '"tag_name": "\K[^"]*')
+    ARCH=$(dpkg --print-architecture)
+    if [ "$ARCH" = "amd64" ]; then DELTA_ARCH="x86_64"; else DELTA_ARCH="aarch64"; fi
+    
+    URL="https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}/delta-${DELTA_VERSION}-${DELTA_ARCH}-unknown-linux-musl.tar.gz"
+    curl -fsSL "$URL" -o /tmp/delta.tar.gz
+    mkdir -p /tmp/delta-download
+    tar -xzf /tmp/delta.tar.gz -C /tmp/delta-download --strip-components=1
+    run sudo mv /tmp/delta-download/delta /usr/local/bin/delta
+    rm -rf /tmp/delta.tar.gz /tmp/delta-download
+else
+    info "delta already installed"
 fi
 
 # ── Neovim ───────────────────────────────────────────────────────────────
@@ -306,7 +348,7 @@ echo ""
 info "Installed tools:"
 echo "  Shell:     zsh + Oh My Zsh + Powerlevel10k"
 echo "  Terminal:  tmux + TPM + Catppuccin"
-echo "  CLI:       eza, bat, fd, fzf, ripgrep, tldr"
+echo "  CLI:       eza, bat, fd, fzf, ripgrep, tldr, zoxide, delta"
 echo "  Editor:    Neovim"
 echo "  Runtime:   Node.js (via NVM), Bun"
 echo "  AI:        OpenCode"
