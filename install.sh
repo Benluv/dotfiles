@@ -18,7 +18,7 @@ set -euo pipefail
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # All available modules (add new ones here as you create them)
-ALL_MODULES=(zsh tmux git opencode k9s htop)
+ALL_MODULES=(zsh tmux git opencode k9s htop lazygit tealdeer nvim nextjs-nodejs turborepo)
 
 # Use arguments if provided, otherwise install all
 MODULES=("${@:-${ALL_MODULES[@]}}")
@@ -53,9 +53,33 @@ fi
 # into them. Without this, stow would symlink the entire .config/ dir
 # instead of individual files inside it.
 mkdir -p ~/.config/tmux
+mkdir -p ~/.config/turborepo
+mkdir -p ~/.config/nextjs-nodejs
+mkdir -p ~/.config/turborepo
 mkdir -p ~/.config/opencode
+mkdir -p ~/.config/turborepo
+mkdir -p ~/.config/nextjs-nodejs
+mkdir -p ~/.config/turborepo
 mkdir -p ~/.config/k9s/skins
+mkdir -p ~/.config/turborepo
+mkdir -p ~/.config/nextjs-nodejs
+mkdir -p ~/.config/turborepo
 mkdir -p ~/.config/htop
+mkdir -p ~/.config/turborepo
+mkdir -p ~/.config/nextjs-nodejs
+mkdir -p ~/.config/turborepo
+mkdir -p ~/.config/lazygit
+mkdir -p ~/.config/turborepo
+mkdir -p ~/.config/nextjs-nodejs
+mkdir -p ~/.config/turborepo
+mkdir -p ~/.config/tealdeer
+mkdir -p ~/.config/turborepo
+mkdir -p ~/.config/nextjs-nodejs
+mkdir -p ~/.config/turborepo
+mkdir -p ~/.config/nvim
+mkdir -p ~/.config/turborepo
+mkdir -p ~/.config/nextjs-nodejs
+mkdir -p ~/.config/turborepo
 mkdir -p ~/.ssh
 
 # ── Back up existing files that would conflict ──────────────────────────
@@ -80,9 +104,15 @@ MANAGED_FILES=(
     ~/.gitconfig
     ~/.ssh/config
     ~/.config/opencode/package.json
+    ~/.config/opencode/opencode.json
     ~/.config/k9s/config.yaml
     ~/.config/k9s/aliases.yaml
     ~/.config/htop/htoprc
+    ~/.config/lazygit/config.yml
+    ~/.config/opencode/oh-my-opencode.json
+    ~/.config/tealdeer/config.toml
+    ~/.config/nextjs-nodejs/config.json
+    ~/.config/turborepo/telemetry.json
 )
 
 info "Backing up any conflicting files..."

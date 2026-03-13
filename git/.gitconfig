@@ -10,4 +10,4 @@
 	navigate = true    # use n and N to move between diff sections
 	light = false
 [merge]
-	conflictStyle = zdiff3
+	conflictStyle = zdiff3	name = benluv

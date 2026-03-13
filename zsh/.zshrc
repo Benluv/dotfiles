@@ -45,8 +45,10 @@ export FZF_ALT_C_OPTS="--preview 'eza --tree --level=3 --icons=always --color=al
 alias ls='eza --git'           
 alias lh='eza --icons -a --git'
 alias ll='eza -lgh --icons --git'
-alias la='eza -lah --git'
+alias la='eza -lah --icons --git'
+alias l=la
 alias lt='eza --tree --level=2 --icons --git'
+alias ltgi='eza --tree --level=3 --icons --git-ignore'
 alias cat='bat'
 alias nokubectl='minikube kubectl --'
 
@@ -74,8 +76,76 @@ fr() {
 export PATH="$HOME/.opencode/bin:$PATH"
 
 # bun completions
-[ -s "/home/luongov/.bun/_bun" ] && source "/home/luongov/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# zoxide (cd replacement)
+eval "$(zoxide init zsh)"
+
+# ─── dotfiles helpers ────────────────────────────────────────────────────
+
+# dotfiles-sync: stage all changes in the dotfiles repo, show status,
+# then optionally commit with a message you provide.
+dotfiles-sync() {
+  local dotfiles_dir="$HOME/dotfiles"
+  echo ""
+  echo "==> Staging all changes in $dotfiles_dir"
+  git -C "$dotfiles_dir" add -A
+  echo ""
+  git -C "$dotfiles_dir" status
+  echo ""
+  read -r "msg?Commit message (leave blank to skip commit): "
+  if [[ -n "$msg" ]]; then
+    git -C "$dotfiles_dir" commit -m "$msg"
+    echo ""
+    echo "Done. Run 'git push' inside ~/dotfiles to push to remote."
+  else
+    echo "Staged but not committed. Run 'git commit' inside ~/dotfiles when ready."
+  fi
+}
+
+# add-config: shortcut to ~/dotfiles/add-config.sh
+add-config() {
+  "$HOME/dotfiles/add-config.sh" "$@"
+}
+
+# >>> oh-my-opencode alias >>>
+# Wrapper to run OpenCode with oh-my-opencode only when requested.
+# Default behavior:
+#   - `opencode` => vanilla OpenCode (no oh-my-opencode)
+#   - `omo`      => OpenCode + oh-my-opencode (runtime-only override)
+#
+# Requirement:
+#   - `~/.config/opencode/opencode.json` should NOT already contain oh-my-opencode.
+
+omo() {
+  local config_file="$HOME/.config/opencode/opencode.json"
+  local tmp_dir
+  tmp_dir=$(mktemp -d)
+
+  # Copy the full config dir so OpenCode finds all its supporting files
+  # -L dereferences symlinks (e.g. package.json -> dotfiles) so the temp dir has real files
+  cp -rL "$HOME/.config/opencode/." "$tmp_dir/"
+
+  # Inject oh-my-opencode into the plugin list in the temp copy
+  node -e "
+    const fs = require('fs');
+    const cfg = JSON.parse(fs.readFileSync(process.argv[1], 'utf8'));
+    const plugins = cfg.plugin || [];
+    if (!plugins.some(p => /^oh-my-opencode(@.*)?$/.test(p))) {
+      plugins.push('oh-my-opencode@latest');
+    }
+    cfg.plugin = plugins;
+    fs.writeFileSync(process.argv[1], JSON.stringify(cfg, null, 2));
+  " "$tmp_dir/opencode.json"
+
+  # Run OpenCode pointing at the temp config dir, then clean up
+  OPENCODE_CONFIG_DIR="$tmp_dir" opencode "$@"
+  local exit_code=$?
+  rm -rf "$tmp_dir"
+  return $exit_code
+}
+# <<< oh-my-opencode alias <<<

@@ -50,30 +50,49 @@ stow -D zsh       # Remove zsh symlinks
 
 ## Adding new configs
 
-1. Create a directory: `mkdir -p ~/dotfiles/newapp/.config/newapp`
-2. Move/copy your config: `cp ~/.config/newapp/config.yaml ~/dotfiles/newapp/.config/newapp/`
-3. Stow it: `stow newapp`
-4. Add the module name to `ALL_MODULES` in `install.sh`
-5. Commit and push
+Use the `add-config.sh` helper — it handles everything automatically:
+
+```bash
+~/dotfiles/add-config.sh ~/.config/newapp/config.yaml
+```
+
+Or use the shell function (available after sourcing `.zshrc`):
+
+```bash
+add-config ~/.config/newapp/config.yaml
+```
+
+It will:
+1. Create the module directory structure inside `~/dotfiles/`
+2. Move the file into the repo
+3. Run stow to create the symlink back to the original location
+4. Register the module in `install.sh`
+
+After that, edit the file at its original path as normal — changes go directly into the repo via the symlink.
+
+For files directly in `$HOME` (like `.zshrc`, `.tmux.conf`) it will prompt you for a module name.
 
 ## Updating configs
 
 Because stow creates **symlinks**, your live configs point directly into this repo.
-Any changes you make to `~/.zshrc` (for example) are actually editing
-`~/dotfiles/zsh/.zshrc`. Just commit and push:
+Any changes you make to `~/.config/k9s/config.yaml` (for example) are already
+in `~/dotfiles/k9s/.config/k9s/config.yaml`. Just commit when ready:
 
 ```bash
-cd ~/dotfiles
-git add -A
-git commit -m "update zsh aliases"
-git push
+dotfiles-sync
+```
+
+The `dotfiles-sync` shell function (defined in `.zshrc`) stages all changes,
+shows you a diff summary, and prompts for a commit message. To push:
+
+```bash
+cd ~/dotfiles && git push
 ```
 
 On another machine, pull the changes:
 
 ```bash
-cd ~/dotfiles
-git pull
+cd ~/dotfiles && git pull
 ```
 
 No re-stow needed — the symlinks already point to the right files.
