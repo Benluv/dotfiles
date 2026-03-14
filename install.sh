@@ -52,35 +52,11 @@ fi
 # Stow needs the parent directories to exist before it can create symlinks
 # into them. Without this, stow would symlink the entire .config/ dir
 # instead of individual files inside it.
-mkdir -p ~/.config/tmux
-mkdir -p ~/.config/turborepo
-mkdir -p ~/.config/nextjs-nodejs
-mkdir -p ~/.config/turborepo
-mkdir -p ~/.config/opencode
-mkdir -p ~/.config/turborepo
-mkdir -p ~/.config/nextjs-nodejs
-mkdir -p ~/.config/turborepo
-mkdir -p ~/.config/k9s/skins
-mkdir -p ~/.config/turborepo
-mkdir -p ~/.config/nextjs-nodejs
-mkdir -p ~/.config/turborepo
-mkdir -p ~/.config/htop
-mkdir -p ~/.config/turborepo
-mkdir -p ~/.config/nextjs-nodejs
-mkdir -p ~/.config/turborepo
-mkdir -p ~/.config/lazygit
-mkdir -p ~/.config/turborepo
-mkdir -p ~/.config/nextjs-nodejs
-mkdir -p ~/.config/turborepo
-mkdir -p ~/.config/tealdeer
-mkdir -p ~/.config/turborepo
-mkdir -p ~/.config/nextjs-nodejs
-mkdir -p ~/.config/turborepo
-mkdir -p ~/.config/nvim
-mkdir -p ~/.config/turborepo
-mkdir -p ~/.config/nextjs-nodejs
-mkdir -p ~/.config/turborepo
-mkdir -p ~/.ssh
+# Clean version of your directory creation
+# Ensure target directories exist to prevent Stow from symlinking the whole folder
+info "Creating config directories..."
+mkdir -p ~/.ssh ~/.config/{tmux,turborepo,nextjs-nodejs,opencode,k9s/skins,htop,lazygit,tealdeer,nvim}
+mkdir -p ~/.config/{tmux,turborepo,nextjs-nodejs,opencode,k9s/skins,htop,lazygit,tealdeer,nvim} ~/.ssh
 
 # ── Back up existing files that would conflict ──────────────────────────
 backup_if_exists() {
@@ -120,14 +96,18 @@ for file in "${MANAGED_FILES[@]}"; do
     backup_if_exists "$file"
 done
 
-# ── Stow each module ────────────────────────────────────────────────────
+# ─── Stow each module ────────────────────────────────────────────────────────
 info "Stowing modules from $DOTFILES_DIR..."
 
-cd "$DOTFILES_DIR"
+# Ensure we are working with absolute paths to prevent WSL "Absolute/relative mismatch"
+ABS_DOTFILES_DIR="$(readlink -f "$DOTFILES_DIR")"
+ABS_TARGET_DIR="$(readlink -f "$HOME")"
+
 for module in "${MODULES[@]}"; do
-    if [ -d "$module" ]; then
+    if [ -d "$ABS_DOTFILES_DIR/$module" ]; then
         info "  Stowing: $module"
-        stow --restow --target="$HOME" "$module"
+        # -d: source (dotfiles) | -t: target (home) | -R: restow (updates links)
+        stow -v -R -d "$ABS_DOTFILES_DIR" -t "$ABS_TARGET_DIR" "$module"
     else
         warn "  Module '$module' directory not found, skipping."
     fi
