@@ -2,7 +2,7 @@
 	defaultBranch = master
 [user]
 	email = luongov13@gmail.com
-  name = benluv
+	name = benluv
 [core]
 	pager = delta
 [interactive]

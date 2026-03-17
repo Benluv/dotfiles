@@ -44,3 +44,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 --     end
 --   end,
 -- })
+
+-- Automatically enter Insert mode when jumping into a terminal buffer (like LazyGit)
+vim.api.nvim_create_autocmd({ "BufEnter", "TermOpen" }, {
+  group = vim.api.nvim_create_augroup("custom_term_open", { clear = true }),
+  pattern = "term://*",
+  callback = function()
+    vim.cmd("startinsert")
+  end,
+})
