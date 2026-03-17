@@ -15,6 +15,7 @@ return {
     },
     dashboard = { enabled = true },
     notifier = { enabled = true },
+    terminal = { enabled = true },
   },
   keys = {
     { "<leader>lg", function() Snacks.lazygit() end, desc = "Lazygit" },

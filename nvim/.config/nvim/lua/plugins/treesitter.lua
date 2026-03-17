@@ -3,6 +3,7 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    event = { "BufReadPost", "BufNewFile" },
     build = ":TSUpdate",
     config = function()
       -- v0.11+ FIX: We check if the module exists before calling it.
