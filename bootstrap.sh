@@ -286,6 +286,17 @@ else
     info "TPM already installed"
 fi
 
+# ── Pyenv (Python version manager) ───────────────────────────────────────
+section "Pyenv (Python version manager)"
+
+export PYENV_ROOT="$HOME/.pyenv"
+if [ ! -d "$PYENV_ROOT" ]; then
+    info "Installing Pyenv..."
+    run bash -c "$(curl -fsSL https://pyenv.run)"
+else
+    info "Pyenv already installed"
+fi
+
 # ── NVM + Node.js ────────────────────────────────────────────────────────
 section "NVM + Node.js"
 
@@ -350,7 +361,7 @@ echo "  Shell:     zsh + Oh My Zsh + Powerlevel10k"
 echo "  Terminal:  tmux + TPM + Catppuccin"
 echo "  CLI:       eza, bat, fd, fzf, ripgrep, tldr, zoxide, delta"
 echo "  Editor:    Neovim"
-echo "  Runtime:   Node.js (via NVM), Bun"
+echo "  Runtime:   Node.js (via NVM), Bun, Python (via Pyenv)"
 echo "  AI:        OpenCode"
 echo ""
 info "Remaining manual steps:"
