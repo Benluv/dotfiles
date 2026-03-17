@@ -2,7 +2,8 @@
 	defaultBranch = master
 [user]
 	email = luongov13@gmail.com
-	name = benluv[core]
+  name = benluv
+[core]
 	pager = delta
 [interactive]
 	diffFilter = delta --color-only
@@ -10,4 +11,4 @@
 	navigate = true    # use n and N to move between diff sections
 	light = false
 [merge]
-	conflictStyle = zdiff3	name = benluv
+	conflictStyle = zdiff3
