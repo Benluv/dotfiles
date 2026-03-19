@@ -1,8 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": [
-    "opencode-handoff"
-  ],
+  "plugin": ["opencode-handoff"],
   "watcher": {
     "ignore": ["node_modules/**", "dist/**", ".git/**", ".meteor/**"]
   },
@@ -51,16 +49,13 @@
     "bash": {
       "*": "ask",
 
-      // BASIC_NAVIGATION
       "ls *": "allow",
       "pwd *": "allow",
       "which *": "allow",
 
-      // GIT
       "git *": "allow",
       "git push *": "ask",
 
-      // RUNTIME_ENVIRONMENTS
       "node *": "allow",
       "npm *": "allow",
       "npx *": "allow",
@@ -72,7 +67,6 @@
       "go *": "allow",
       "**/go *": "allow",
 
-      // FILE_OPERATIONS
       "cat *": "allow",
       "grep *": "allow",
       "tail *": "allow",
@@ -87,16 +81,14 @@
       "cut *": "allow",
       "tr *": "allow",
       "jq *": "allow",
+      "rg *": "allow",
 
-      // BUILD_TOOLS
       "make *": "allow",
       "gcc *": "allow",
 
-      // NETWORK
       "curl *": "allow",
       "wget *": "allow",
 
-      // CONTAINERS_AND_INFRASTRUCTURE
       "docker *": "allow",
       "docker-compose *": "allow",
       "kubectl *": "allow",
@@ -104,7 +96,6 @@
       "minikube *": "allow",
       "gcloud *": "allow",
 
-      // SYSTEM_MONITORING
       "htop": "allow",
       "free *": "allow",
       "echo *": "allow",

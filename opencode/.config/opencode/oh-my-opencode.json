@@ -26,13 +26,13 @@
       "variant": "high"
     },
     "librarian": {
-      "model": "github-copilot-enterprise/gemini-3-flash"
+      "model": "github-copilot-enterprise/gemini-3-flash-preview"
     },
     "explore": {
       "model": "github-copilot-enterprise/gpt-5-mini"
     },
     "multimodal-looker": {
-      "model": "github-copilot-enterprise/gemini-3-flash"
+      "model": "github-copilot-enterprise/gemini-3-flash-preview"
     },
     "prometheus": {
       "model": "github-copilot-enterprise/claude-opus-4.6",
@@ -48,7 +48,7 @@
       "variant": "xhigh"
     },
     "atlas": {
-      "model": "github-copilot-enterprise/claude-opus-4.6",
+      "model": "github-copilot-enterprise/gemini-3.1-pro-preview",
       "prompt_append": "Leverage deep & quick agents heavily, always in parallel.",
       "steps": 25,
       "tools": {
@@ -80,42 +80,6 @@
     },
     "writing": {
       "model": "github-copilot-enterprise/gemini-3-flash-preview"
-    }
-  },
-  "permission": {
-    "read": "allow",
-    "edit": "ask",
-    "glob": "allow",
-    "grep": "allow",
-    "list": "allow",
-    "skill": "allow",
-    "lsp": "allow",
-    "question": "allow",
-    "todowrite": "ask",
-    "todoread": "allow",
-    "webfetch": "allow",
-    "websearch": "allow",
-    "external_directory": "allow",
-    "bash": {
-      "git push *": "ask",
-      "git": "allow",
-      "git *": "allow",
-      "ls *": "allow",
-      "bun *": "allow",
-      "bunx *": "allow",
-      "go *": "allow",
-      "cat *": "allow",
-      "**/go *": "allow",
-      "grep *": "allow",
-      "tail *": "allow",
-      "htop": "allow",
-      "free *": "allow",
-      "echo *": "allow",
-      "nproc *": "allow",
-      "uptime *": "allow",
-      "ps *": "allow",
-      "head *": "allow",
-      "*": "ask"
     }
   }
 }

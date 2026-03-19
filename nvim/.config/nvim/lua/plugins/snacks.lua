@@ -26,6 +26,7 @@ return {
     { "<leader>fe", function() Snacks.picker.explorer() end, desc = "Fuzzy Explorer Tree" },
     { "<leader>fer", function() Snacks.picker.explorer({ layout = { layout = { position = "right" } } }) end, desc = "Fuzzy Explorer Tree (Right)" },
     { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
+    { "<leader>fF", function() Snacks.picker.files({ ignored = true, hidden = true }) end, desc = "Find Files (All)" },
     { "<leader>fg", function() Snacks.picker.grep() end, desc = "Grep Text" },
 
     -- Git related

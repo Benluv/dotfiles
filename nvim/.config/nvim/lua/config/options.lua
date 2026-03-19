@@ -24,3 +24,14 @@ opt.smoothscroll = true       -- v0.11 feature: pixel-perfect scrolling
 opt.tabstop = 2               -- Number of spaces a <Tab> counts for visually
 opt.shiftwidth = 2            -- Number of spaces used for each indentation step (>> / <<)
 opt.expandtab = true          -- Insert spaces instead of a tab character
+
+-- Diagnostics (inline warnings/errors)
+vim.diagnostic.config({
+  virtual_text = true, -- Show text at the end of the line
+  signs = true,        -- Show sign in the sign column
+  underline = true,    -- Underline the diagnostic code
+  update_in_insert = false,
+})
+
+-- 120-Character line limit marker
+opt.colorcolumn = "120"
