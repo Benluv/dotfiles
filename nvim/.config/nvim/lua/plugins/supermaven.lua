@@ -7,11 +7,8 @@ return {
 	event = "InsertEnter",
 	config = function()
 		require("supermaven-nvim").setup({
-			keymaps = {
-				accept_suggestion = "<C-j>",
-				clear_suggestion = "<C-]>",
-				accept_word = "<M-w>",
-			},
+			-- Keymaps are handled by our unified <Tab> handler in ai-toggle.lua
+			disable_keymaps = true,
 			ignore_filetypes = {},
 			color = {
 				suggestion_color = "#6c7086", -- muted ghost text colour (works on dark themes)
@@ -19,7 +16,6 @@ return {
 			},
 			log_level = "off",
 			disable_inline_completion = false,
-			disable_keymaps = false,
 		})
 
 		vim.g.supermaven_active = true

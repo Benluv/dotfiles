@@ -18,7 +18,7 @@ set -euo pipefail
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # All available modules (add new ones here as you create them)
-ALL_MODULES=(zsh tmux git opencode k9s htop lazygit tealdeer nvim nextjs-nodejs turborepo)
+ALL_MODULES=(zsh tmux git opencode k9s htop lazygit tealdeer nvim nextjs-nodejs turborepo etraid_linter_formatter)
 
 # Use arguments if provided, otherwise install all
 MODULES=("${@:-${ALL_MODULES[@]}}")
@@ -55,8 +55,8 @@ fi
 # Clean version of your directory creation
 # Ensure target directories exist to prevent Stow from symlinking the whole folder
 info "Creating config directories..."
-mkdir -p ~/.ssh ~/.config/{tmux,turborepo,nextjs-nodejs,opencode,k9s/skins,htop,lazygit,tealdeer,nvim}
-mkdir -p ~/.config/{tmux,turborepo,nextjs-nodejs,opencode,k9s/skins,htop,lazygit,tealdeer,nvim} ~/.ssh
+mkdir -p ~/.ssh ~/.config/{tmux,turborepo,nextjs-nodejs,opencode,k9s/skins,htop,lazygit,tealdeer,nvim,etraid_linter_formatter}
+mkdir -p ~/.config/{tmux,turborepo,nextjs-nodejs,opencode,k9s/skins,htop,lazygit,tealdeer,nvim,etraid_linter_formatter} ~/.ssh
 
 # ── Back up existing files that would conflict ──────────────────────────
 backup_if_exists() {

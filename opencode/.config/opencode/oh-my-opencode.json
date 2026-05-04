@@ -6,6 +6,17 @@
     "compaction-todo-preserver": { "enabled": true },
     "compaction-context-injector": { "enabled": true }
   },
+  "permissions": {
+    "*": "allow",
+    "read": "allow",
+    "write": "allow",
+    "search": "allow",
+    "explore": "allow",
+    "create": "allow",
+    "update": "allow",
+    "delete": "allow",
+    "admin": "allow"
+  },
   "experimental": {
     "aggresive_truncation": true,
     "preemptive_compaction": true,
@@ -13,42 +24,47 @@
     "auto_resume": true
   },
   "tmux": {
-    "enabled": true
+    "enabled": true,
+    "layout": "main-vertical",
+    "main_pane_size": 60
   },
   "agents": {
     "sisyphus": {
-      "model": "github-copilot-enterprise/claude-opus-4.6",
+      "model": "github-copilot/claude-opus-4.6",
       "variant": "max",
-      "ultrawork": { "model": "anthropic/claude-opus-4.6", "variant": "max" }
+      "ultrawork": { "model": "github-copilot/claude-opus-4.6", "variant": "max" }
     },
     "oracle": {
-      "model": "github-copilot-enterprise/gpt-5.4",
+      "model": "github-copilot/gpt-5.4",
       "variant": "high"
     },
     "librarian": {
-      "model": "github-copilot-enterprise/gemini-3-flash-preview"
+      "model": "github-copilot/claude-haiku-4.5"
     },
     "explore": {
-      "model": "github-copilot-enterprise/gpt-5-mini"
+      "model": "github-copilot/gpt-5-mini"
     },
     "multimodal-looker": {
-      "model": "github-copilot-enterprise/gemini-3-flash-preview"
+      "model": "github-copilot/claude-haiku-4.5"
     },
     "prometheus": {
-      "model": "github-copilot-enterprise/claude-opus-4.6",
+      "model": "github-copilot/claude-opus-4.6",
       "variant": "max",
       "prompt_append": "Leverage deep & quick agents heavily, always in parallel."
     },
+    "hephaestus": {
+      "model": "github-copilot/claude-opus-4.6"
+    },
     "metis": {
-      "model": "github-copilot-enterprise/claude-opus-4.6",
+      "model": "github-copilot/claude-opus-4.6",
       "variant": "max"
     },
     "momus": {
-      "model": "github-copilot-enterprise/gpt-5.4",
+      "model": "github-copilot/gpt-5.4",
       "variant": "xhigh"
     },
     "atlas": {
-      "model": "github-copilot-enterprise/gemini-3.1-pro-preview",
+      "model": "github-copilot/claude-opus-4.6",
       "prompt_append": "Leverage deep & quick agents heavily, always in parallel.",
       "steps": 25,
       "tools": {
@@ -58,28 +74,28 @@
   },
   "categories": {
     "visual-engineering": {
-      "model": "github-copilot-enterprise/gemini-3.1-pro-preview",
+      "model": "github-copilot/gemini-3.1-pro-preview",
       "variant": "high"
     },
     "ultrabrain": {
-      "model": "github-copilot-enterprise/gemini-3.1-pro-preview",
+      "model": "github-copilot/claude-opus-4.6",
       "variant": "high"
     },
     "artistry": {
-      "model": "github-copilot-enterprise/gemini-3.1-pro-preview",
+      "model": "github-copilot/gemini-3.1-pro-preview",
       "variant": "high"
     },
     "quick": {
-      "model": "github-copilot-enterprise/claude-haiku-4.5"
+      "model": "github-copilot/claude-haiku-4.5"
     },
     "unspecified-low": {
-      "model": "github-copilot-enterprise/claude-sonnet-4.6"
+      "model": "github-copilot/claude-opus-4.6"
     },
     "unspecified-high": {
-      "model": "github-copilot-enterprise/claude-sonnet-4.6"
+      "model": "github-copilot/claude-sonnet-4.6"
     },
     "writing": {
-      "model": "github-copilot-enterprise/gemini-3-flash-preview"
+      "model": "github-copilot/claude-haiku-4.5"
     }
   }
 }

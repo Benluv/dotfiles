@@ -352,6 +352,21 @@ section "Dotfiles"
 info "Running install.sh to symlink dotfiles..."
 run bash "$DOTFILES_DIR/install.sh"
 
+# ── etraid linter/formatter dependencies ────────────────────────────────
+section "etraid linter/formatter (eslint + prettier)"
+
+ETRAID_DIR="$HOME/.config/etraid_linter_formatter"
+if [ -f "$ETRAID_DIR/package.json" ]; then
+    if [ ! -d "$ETRAID_DIR/node_modules" ]; then
+        info "Installing etraid linter/formatter dependencies..."
+        run bash -c "cd '$ETRAID_DIR' && npm install"
+    else
+        info "etraid linter/formatter dependencies already installed"
+    fi
+else
+    warn "etraid_linter_formatter package.json not found — skipping npm install"
+fi
+
 # ── Summary ──────────────────────────────────────────────────────────────
 section "Bootstrap complete!"
 

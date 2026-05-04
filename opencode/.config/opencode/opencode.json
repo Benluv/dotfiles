@@ -1,13 +1,13 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": ["opencode-handoff"],
+  "plugin": ["opencode-handoff", "superpowers@git+https://github.com/obra/superpowers.git"],
   "watcher": {
     "ignore": ["node_modules/**", "dist/**", ".git/**", ".meteor/**"]
   },
   "compaction": {
     "auto": true,
     "prune": true,
-    "reserved": 10000
+    "reserved": 15000
   },
   "provider": {
     "litellm": {
@@ -48,14 +48,11 @@
     "external_directory": "allow",
     "bash": {
       "*": "ask",
-
       "ls *": "allow",
       "pwd *": "allow",
       "which *": "allow",
-
       "git *": "allow",
       "git push *": "ask",
-
       "node *": "allow",
       "npm *": "allow",
       "npx *": "allow",
@@ -66,7 +63,6 @@
       "python *": "allow",
       "go *": "allow",
       "**/go *": "allow",
-
       "cat *": "allow",
       "grep *": "allow",
       "tail *": "allow",
@@ -82,21 +78,19 @@
       "tr *": "allow",
       "jq *": "allow",
       "rg *": "allow",
-
+      "rtk *": "allow",
+      "spacetime-db *": "allow",
       "make *": "allow",
       "gcc *": "allow",
-
       "curl *": "allow",
       "wget *": "allow",
-
       "docker *": "allow",
       "docker-compose *": "allow",
       "kubectl *": "allow",
       "helm *": "allow",
       "minikube *": "allow",
       "gcloud *": "allow",
-
-      "htop": "allow",
+      "htop *": "allow",
       "free *": "allow",
       "echo *": "allow",
       "nproc *": "allow",

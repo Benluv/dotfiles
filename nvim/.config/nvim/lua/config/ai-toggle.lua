@@ -103,4 +103,56 @@ end
 -- Register the keymap
 vim.keymap.set("n", "<leader>ai", M.pick, { desc = "Toggle AI provider (Copilot/Supermaven)" })
 
+-- ── Unified <Tab> handler ─────────────────────────────────────────────
+-- Both Copilot and Supermaven have their own keymaps disabled.
+-- This single <Tab> mapping checks whichever provider is active:
+--   1. If the active AI has ghost text visible → accept it
+--   2. If the LSP completion popup is open     → select next item
+--   3. Otherwise                               → insert a normal tab
+--
+-- This prevents the two plugins from stomping on each other's keymaps.
+
+--- Returns true if Supermaven has ghost-text extmarks in the current buffer.
+local function supermaven_has_suggestion()
+  for name, ns_id in pairs(vim.api.nvim_get_namespaces()) do
+    if name:find("supermaven") then
+      local marks = vim.api.nvim_buf_get_extmarks(0, ns_id, 0, -1, {})
+      if #marks > 0 then return true end
+    end
+  end
+  return false
+end
+
+vim.keymap.set("i", "<Tab>", function()
+  -- 1. Try the active AI provider
+  if vim.g.copilot_active then
+    local ok, suggestion = pcall(require, "copilot.suggestion")
+    if ok and suggestion and suggestion.is_visible() then
+      suggestion.accept()
+      return
+    end
+  end
+
+  if vim.g.supermaven_active then
+    if supermaven_has_suggestion() then
+      local ok, preview = pcall(require, "supermaven-nvim.completion_preview")
+      if ok and preview then
+        preview.on_accept_suggestion()
+        return
+      end
+    end
+  end
+
+  -- 2. If the LSP completion popup is visible, select next item
+  if vim.fn.pumvisible() == 1 then
+    vim.api.nvim_feedkeys(
+      vim.api.nvim_replace_termcodes("<C-n>", true, false, true), "n", false)
+    return
+  end
+
+  -- 3. Normal tab (insert real \t / spaces). Mode "n" = noremap, avoids recursion.
+  vim.api.nvim_feedkeys(
+    vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
+end, { desc = "Accept AI suggestion / complete / indent" })
+
 return M
